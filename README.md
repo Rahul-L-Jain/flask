@@ -62,7 +62,7 @@ erDiagram
     USERS ||--o{ SIBLINGS : "user_id_1"
     USERS ||--o{ SIBLINGS : "user_id_2"
 ```
-![ER Diagram](image/Untitled%20diagram-2026-02-10-103546.png)
+#![ER Diagram](image/Untitled%20diagram-2026-02-10-103546.png)
 
 ## Tech Stack
 
