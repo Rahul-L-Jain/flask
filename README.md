@@ -25,7 +25,7 @@ The application follows a RESTful API design and is built using the Flask Applic
 
 ## Entity Relationship Diagram
 
-```mermaid
+''' prompt for mermaid'''
 erDiagram
     USERS {
         INT id PK
