@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Book</h2>
+
+<form method="POST" action="{{ url_for('main.edit_book', book_id=book.id) }}">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" value="{{ book.title }}" placeholder="Title">
+
+    <label for="author">Author</label>
+    <input type="text" name="author" id="author" value="{{ book.author }}" placeholder="Author">
+
+    <label for="isbn">ISBN</label>
+    <input type="text" name="isbn" id="isbn" value="{{ book.isbn }}" placeholder="ISBN">
+
+    <label for="available_copies">Available Copies</label>
+    <input type="number" name="available_copies" id="available_copies" value="{{ book.available_copies }}"
+        placeholder="Copies" min="0">
+
+    <button type="submit">Update Book</button>
+    <a href="{{ url_for('main.books') }}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}

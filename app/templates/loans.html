@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Loans</h2>
+
+<h3>Lend Book</h3>
+<form method="POST" action="{{ url_for('main.loans') }}">
+    <select name="user_id" required>
+        <option value="" disabled selected>Select User</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }} (ID: {{ user.id }})</option>
+        {% endfor %}
+    </select>
+
+    <select name="book_id" required>
+        <option value="" disabled selected>Select Book</option>
+        {% for book in books %}
+        <option value="{{ book.id }}">{{ book.title }} - {{ book.available_copies }} left</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Lend</button>
+</form>
+
+<h3>Loan History</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Loan ID</th>
+            <th>User</th>
+            <th>Book</th>
+            <th>Borrowed At</th>
+            <th>Returned At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan.id }}</td>
+            <td>{{ loan.user.first_name }} {{ loan.user.last_name }}</td>
+            <td>{{ loan.book.title }}</td>
+            <td>{{ loan.borrowed_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ loan.returned_at.strftime('%Y-%m-%d %H:%M') if loan.returned_at else 'Active' }}</td>
+            <td>
+                {% if not loan.returned_at %}
+                <form action="{{ url_for('main.loans') }}" method="POST"
+                    style="display:inline; margin:0; padding:0; background:none;">
+                    <input type="hidden" name="loan_id" value="{{ loan.id }}">
+                    <button type="submit" style="width:auto; background:#28a745;">Return</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

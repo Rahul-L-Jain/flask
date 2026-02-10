@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Books</h2>
+
+<form method="POST" action="{{ url_for('main.books') }}">
+    <input type="text" name="title" placeholder="Title" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <input type="text" name="isbn" placeholder="ISBN" required>
+    <input type="number" name="available_copies" placeholder="Copies" required min="1">
+    <button type="submit">Add Book</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Copies</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.isbn }}</td>
+            <td>{{ book.available_copies }}</td>
+            <td>
+                <a href="{{ url_for('main.edit_book', book_id=book.id) }}" style="margin-right: 5px;">Edit</a>
+                <form action="{{ url_for('main.delete_book', book_id=book.id) }}" method="POST"
+                    style="display:inline; margin:0; padding:0; background:none;">
+                    <button type="submit" style="width:auto; background:#dc3545;"
+                        onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

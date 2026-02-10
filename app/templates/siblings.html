@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Siblings</h2>
+
+<form method="POST" action="{{ url_for('main.siblings') }}">
+    <select name="user_id_1" required>
+        <option value="" disabled selected>Select User 1</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }} ({{ user.id }})</option>
+        {% endfor %}
+    </select>
+
+    <select name="user_id_2" required>
+        <option value="" disabled selected>Select User 2</option>
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }} ({{ user.id }})</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Establish Relationship</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User 1</th>
+            <th>User 2</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sibling in siblings %}
+        <tr>
+            <td>{{ sibling.sibling_id }}</td>
+            <td>{{ user_map[sibling.user_id_1].first_name }} {{ user_map[sibling.user_id_1].last_name }} ({{
+                sibling.user_id_1 }})</td>
+            <td>{{ user_map[sibling.user_id_2].first_name }} {{ user_map[sibling.user_id_2].last_name }} ({{
+                sibling.user_id_2 }})</td>
+            <td>
+                <form action="{{ url_for('main.siblings') }}" method="POST"
+                    style="display:inline; margin:0; padding:0; background:none;">
+                    <input type="hidden" name="delete_id" value="{{ sibling.sibling_id }}">
+                    <button type="submit" style="width:auto; background:#dc3545;">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
